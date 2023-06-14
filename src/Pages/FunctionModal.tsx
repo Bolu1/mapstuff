@@ -25,7 +25,7 @@ const FunctionModal = (props: IProps) => {
 
           <button
             onClick={() => {
-              props.setMapType("satellite");
+              props.setMapType("hybrid");
             }}
             className="bg-green-800 rounded text-lg p-3 m-6"
           >

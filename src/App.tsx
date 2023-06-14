@@ -36,7 +36,7 @@ const App = (): ReactElement => {
   const [centerLng, setCenterLng] = useState(-0.98807);
   const [path, setPath] = useState<google.maps.LatLngLiteral[]>([]);
   const [mapref, setMapRef] = React.useState<google.maps.Map>();
-  const [mapType, setMapType] = useState("satellite");
+  const [mapType, setMapType] = useState("hybrid");
   const [isCompleted, setIsCompleted] = useState(false);
   const [showFuncion, setShowFunction] = useState(true);
 
