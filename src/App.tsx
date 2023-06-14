@@ -59,10 +59,15 @@ const App = (): ReactElement => {
     a.click();
   };
 
+  const toogleFunctionModal = (state)=>{
+    setShowFunction(state)
+
+  }
+
   const downloadScreenshot = () =>{
-    setShowFunction(false)
+    toogleFunctionModal(false)
     takeScreenShot(ref.current as HTMLElement).then(download);
-    setShowFunction(true)
+    // toogleFunctionModal(true)
   }
 
   // Call setPath with new edited path
@@ -122,7 +127,7 @@ const App = (): ReactElement => {
           setPath([
             ...path,
             { lat: newCenter.lat(), lng: newCenter.lng() },
-            { lat: newCenter.lat() - 0.1, lng: newCenter.lng() - 0.1 },
+            { lat: newCenter.lat() - 0.001, lng: newCenter.lng() - 0.01 },
           ]);
         }
       }
