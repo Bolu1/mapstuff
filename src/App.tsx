@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { GoogleMap, Polyline, useLoadScript } from "@react-google-maps/api";
 import FunctionModal from "./Pages/FunctionModal";
-import Screenshots, { Bounds } from "react-screenshots";
 import url from "./image.jpg";
 import * as htmlToImage from "html-to-image";
 
@@ -59,7 +58,7 @@ const App = (): ReactElement => {
     a.click();
   };
 
-  const toogleFunctionModal = (state)=>{
+  const toogleFunctionModal = (state: boolean)=>{
     setShowFunction(state)
 
   }
@@ -151,7 +150,7 @@ const App = (): ReactElement => {
     console.log(path); //What should be here to show the edited path if its possible to access?
   };
 
-  const { isLoaded, loadError } = useLoadScript({
+   useLoadScript({
     googleMapsApiKey: "AIzaSyDN62f6t7YptfRccxFxRByRFg8fhs0Ggeo",
   });
 
@@ -176,8 +175,8 @@ const App = (): ReactElement => {
   const centre = { lat: centerLat, lng: centerLng };
   console.log("The path state is", path);
 
-  if (loadError) return "Error loading Google Map";
-  if (!isLoaded) return "Loading Maps....";
+  // if (loadError) return "Error loading Google Map";
+  // if (!isLoaded) return "Loading Maps....";
 
   return (
     <div ref={ref}>
