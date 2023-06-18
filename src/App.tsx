@@ -10,6 +10,7 @@ import React, {
 } from "react";
 import { GoogleMap, Polyline, useLoadScript } from "@react-google-maps/api";
 import FunctionModal from "./Pages/FunctionModal";
+import url from "./image.jpg";
 import * as htmlToImage from "html-to-image";
 
 const createFileName = (extension = "", ...names: any[]) => {
@@ -20,6 +21,12 @@ const createFileName = (extension = "", ...names: any[]) => {
   return `${names.join("")}.${extension}`;
 };
 
+interface Bounds {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
 
 const App = (): ReactElement => {
   const polylineRef = useRef<google.maps.Polyline | null>(null);
@@ -51,7 +58,7 @@ const App = (): ReactElement => {
     a.click();
   };
 
-  const toogleFunctionModal = (state: boolean)=>{
+  const toogleFunctionModal = (state:boolean)=>{
     setShowFunction(state)
 
   }
@@ -92,10 +99,12 @@ const App = (): ReactElement => {
     setMapRef(map);
   };
 
+  let newCenter;
 
   const handleCenterChanged = () => {
     try {
       if (mapref) {
+        newCenter = mapref.getCenter();
         // let nl = newCenter.lat()
         // let nln = newCenter.lng()
         // setCenterLat(nl)
@@ -141,7 +150,7 @@ const App = (): ReactElement => {
     console.log(path); //What should be here to show the edited path if its possible to access?
   };
 
-   useLoadScript({
+  const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyDN62f6t7YptfRccxFxRByRFg8fhs0Ggeo",
   });
 
@@ -166,8 +175,8 @@ const App = (): ReactElement => {
   const centre = { lat: centerLat, lng: centerLng };
   console.log("The path state is", path);
 
-  // if (loadError) return "Error loading Google Map";
-  // if (!isLoaded) return "Loading Maps....";
+  if (loadError) return <div>"Error loading Google Map"</div>;
+  if (!isLoaded) return <div>"Loading Maps...."</div>;
 
   return (
     <div ref={ref}>
