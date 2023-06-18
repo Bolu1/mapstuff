@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import { GoogleMap, Polyline, useLoadScript } from "@react-google-maps/api";
 import FunctionModal from "./Pages/FunctionModal";
-import url from "./image.jpg";
 import * as htmlToImage from "html-to-image";
 
 const createFileName = (extension = "", ...names: any[]) => {
@@ -20,13 +19,6 @@ const createFileName = (extension = "", ...names: any[]) => {
 
   return `${names.join("")}.${extension}`;
 };
-
-interface Bounds {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
 
 const App = (): ReactElement => {
   const polylineRef = useRef<google.maps.Polyline | null>(null);
@@ -99,12 +91,12 @@ const App = (): ReactElement => {
     setMapRef(map);
   };
 
-  let newCenter;
+
 
   const handleCenterChanged = () => {
     try {
       if (mapref) {
-        newCenter = mapref.getCenter();
+        // newCenter = mapref.getCenter();
         // let nl = newCenter.lat()
         // let nln = newCenter.lng()
         // setCenterLat(nl)
