@@ -30,6 +30,7 @@ const App = (): ReactElement => {
   const [mapType, setMapType] = useState("hybrid");
   const [isCompleted, setIsCompleted] = useState(false);
   const [showFuncion, setShowFunction] = useState(true);
+  const [zoom, setZoom] = useState<number|undefined>(3);
 
   const ref = createRef<HTMLDivElement>();
 
@@ -50,16 +51,15 @@ const App = (): ReactElement => {
     a.click();
   };
 
-  const toogleFunctionModal = (state:boolean)=>{
-    setShowFunction(state)
+  const toogleFunctionModal = (state: boolean) => {
+    setShowFunction(state);
+  };
 
-  }
-
-  const downloadScreenshot = () =>{
-    toogleFunctionModal(false)
+  const downloadScreenshot = () => {
+    toogleFunctionModal(false);
     takeScreenShot(ref.current as HTMLElement).then(download);
     // toogleFunctionModal(true)
-  }
+  };
 
   // Call setPath with new edited path
   const onEdit = useCallback(() => {
@@ -91,8 +91,6 @@ const App = (): ReactElement => {
     setMapRef(map);
   };
 
-
-
   const handleCenterChanged = () => {
     try {
       if (mapref) {
@@ -112,15 +110,44 @@ const App = (): ReactElement => {
     try {
       if (mapref) {
         const newCenter = mapref.getCenter();
+        const zoom = mapref.getZoom()
         if (newCenter?.lat() && newCenter?.lng()) {
           setCenterLat(newCenter.lat());
           setCenterLng(newCenter.lng());
-          setPath([
-            ...path,
-            { lat: newCenter.lat(), lng: newCenter.lng() },
-            { lat: newCenter.lat() - 0.001, lng: newCenter.lng() - 0.01 },
-          ]);
-        }
+          console.log(zoom)
+          if(zoom && zoom>10 && zoom <16){
+            console.log("xnzm")
+            setPath([
+              ...path,
+              { lat: newCenter.lat(), lng: newCenter.lng() },
+              { lat: newCenter.lat() - 0.1/zoom, lng: newCenter.lng() - 0.1/zoom },
+            ]);
+          }
+          if(zoom && zoom<5){
+            
+            setPath([
+              ...path,
+              { lat: newCenter.lat(), lng: newCenter.lng() },
+              { lat: newCenter.lat() - zoom, lng: newCenter.lng() - zoom },
+            ]);
+          }
+          if(zoom && zoom>5&& zoom<10){
+            
+            setPath([
+              ...path,
+              { lat: newCenter.lat(), lng: newCenter.lng() },
+              { lat: newCenter.lat() - 1/zoom, lng: newCenter.lng() - 1/zoom },
+            ]);
+          }
+          if(zoom && zoom>16){
+            
+            setPath([
+              ...path,
+              { lat: newCenter.lat(), lng: newCenter.lng() },
+              { lat: newCenter.lat() - 0.01/zoom, lng: newCenter.lng() - 0.01/zoom },
+            ]);
+          }
+          }
       }
     } catch (error) {
       console.log(error, "aa");
@@ -161,8 +188,25 @@ const App = (): ReactElement => {
       ],
       mapTypeIds: ["satellite"],
     },
+    minZoom: 3,
+    restriction:{
+      latLngBounds:{
+        east:90,
+        west:90,
+        north:90,
+        south:90
+      },
+      strictBounds: true
+    },
     mapTypeId: mapType,
   };
+
+  function handleZoomChanged() {
+    if (mapref) {
+      setZoom(mapref.getZoom())
+      console.log("zoom", mapref.getZoom());
+    }
+  }
 
   const centre = { lat: centerLat, lng: centerLng };
   console.log("The path state is", path);
@@ -174,8 +218,9 @@ const App = (): ReactElement => {
     <div ref={ref}>
       <Fragment>
         <GoogleMap
+          // onZoomChanged={handleZoomChanged}
           mapContainerStyle={mapContainerStyle}
-          zoom={10}
+          zoom={3}
           onLoad={handleOnLoad}
           onCenterChanged={handleCenterChanged}
           options={options}

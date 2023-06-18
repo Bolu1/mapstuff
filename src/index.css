@@ -71,3 +71,30 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* console.log(zoom)
+if(zoom && zoom>10 && zoom <16){
+  console.log("xnzm")
+  setPath([
+    ...path,
+    { lat: newCenter.lat(), lng: newCenter.lng() },
+    { lat: newCenter.lat() - 0.1/zoom, lng: newCenter.lng() - 0.1/zoom },
+  ]);
+}
+if(zoom && zoom<10){
+  
+  setPath([
+    ...path,
+    { lat: newCenter.lat(), lng: newCenter.lng() },
+    { lat: newCenter.lat() - 1/zoom, lng: newCenter.lng() - 1/zoom },
+  ]);
+}
+if(zoom && zoom>16){
+  
+  setPath([
+    ...path,
+    { lat: newCenter.lat(), lng: newCenter.lng() },
+    { lat: newCenter.lat() - 0.01/zoom, lng: newCenter.lng() - 0.01/zoom },
+  ]);
+} */
